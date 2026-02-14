@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter Online Free — Count Words, Characters, Sentences</title>
+    <meta name="description" content="Count words, characters, sentences, paragraphs and estimate reading time. Free online word counter with keyword density analysis.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/word-counter.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Word & Character Counter</h1><p>Count words, characters, sentences, paragraphs and estimate reading time</p></div>
+    <div class="tool-container">
+        <div class="result-grid mb-md" id="stats">
+            <div class="result-item"><div class="result-value" id="sWords">0</div><div class="result-label">Words</div></div>
+            <div class="result-item"><div class="result-value" id="sChars">0</div><div class="result-label">Characters</div></div>
+            <div class="result-item"><div class="result-value" id="sCharsNS">0</div><div class="result-label">No Spaces</div></div>
+            <div class="result-item"><div class="result-value" id="sSent">0</div><div class="result-label">Sentences</div></div>
+            <div class="result-item"><div class="result-value" id="sPara">0</div><div class="result-label">Paragraphs</div></div>
+            <div class="result-item"><div class="result-value" id="sRead">0 min</div><div class="result-label">Reading Time</div></div>
+        </div>
+        <div class="card"><textarea id="textInput" style="min-height:300px;border:none;background:transparent;padding:0" placeholder="Start typing or paste your text here..." oninput="analyse()"></textarea></div>
+        <div class="card mt-md" id="keywordCard" style="display:none">
+            <div class="card-header">Top Keywords</div>
+            <div id="keywords"></div>
+        </div>
+    </div>
+    <div class="content-section">
+        <h2>Reading Time Calculation</h2><p>Reading time is estimated at 238 words per minute (average adult reading speed). Speaking time uses 150 words per minute.</p>
+        <h2>Character Limits Reference</h2><p>Twitter/X: 280 characters. Meta title: ~60 characters. Meta description: ~155 characters. LinkedIn post: 3,000 characters. Instagram caption: 2,200 characters. SMS: 160 characters.</p>
+    </div>
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    function analyse() {
+        const text = document.getElementById('textInput').value;
+        const words = text.trim() ? text.trim().split(/\s+/) : [];
+        document.getElementById('sWords').textContent = words.length;
+        document.getElementById('sChars').textContent = text.length;
+        document.getElementById('sCharsNS').textContent = text.replace(/\s/g,'').length;
+        document.getElementById('sSent').textContent = text.split(/[.!?]+/).filter(s=>s.trim()).length;
+        document.getElementById('sPara').textContent = text.split(/\n\n+/).filter(p=>p.trim()).length || (text.trim() ? 1 : 0);
+        const mins = Math.ceil(words.length / 238);
+        document.getElementById('sRead').textContent = mins < 1 && words.length > 0 ? '<1 min' : mins + ' min';
+        // Keywords
+        const kw = document.getElementById('keywordCard');
+        if (words.length > 10) {
+            const freq = {}; const stop = new Set('the a an and or but in on at to for of is it this that with from by as be are was were'.split(' '));
+            words.forEach(w => { const lw = w.toLowerCase().replace(/[^a-z0-9]/g,''); if (lw.length > 2 && !stop.has(lw)) freq[lw] = (freq[lw]||0)+1; });
+            const top = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10);
+            if (top.length) { kw.style.display='block'; document.getElementById('keywords').innerHTML = top.map(([w,c])=>`<span style="display:inline-block;padding:4px 12px;margin:3px;border-radius:20px;background:var(--accent-light);color:var(--accent);font-size:.82rem;font-weight:600">${w} (${c})</span>`).join(''); }
+        } else { kw.style.display='none'; }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter — Free Live Exchange Rates for 150+ Currencies</title>
+    <meta name="description" content="Convert between 150+ world currencies with live exchange rates. Free online currency converter with real-time rates updated daily.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/currency-converter.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+    <style>
+        .convert-result { text-align: center; padding: 28px; background: var(--accent-light); border-radius: var(--radius); margin-top: 16px; }
+        .convert-amount { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+        .convert-rate { font-size: .88rem; color: var(--ink-light); margin-top: 6px; }
+        .swap-btn { background: var(--bg-input); border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin: 0 auto; transition: all .15s; }
+        .swap-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+        .popular-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
+        .pop-rate { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; cursor: pointer; transition: all .15s; }
+        .pop-rate:hover { border-color: var(--accent); }
+        .pop-rate .code { font-weight: 700; font-size: .9rem; }
+        .pop-rate .val { font-size: 1rem; font-weight: 700; color: var(--accent); margin-top: 4px; }
+        .pop-rate .name { font-size: .72rem; color: var(--ink-muted); }
+    </style>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Currency Converter</h1><p>Convert between 150+ world currencies with live exchange rates</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="form-row">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" value="1000" min="0" step="any" oninput="convert()">
+            </div>
+            <div class="form-grid">
+                <div class="form-row">
+                    <label for="fromCur">From</label>
+                    <select id="fromCur" onchange="convert()"></select>
+                </div>
+                <div class="form-row">
+                    <label for="toCur">To</label>
+                    <select id="toCur" onchange="convert()"></select>
+                </div>
+            </div>
+            <div class="text-center mt-sm"><button class="swap-btn" onclick="swapCurrencies()" title="Swap currencies">⇅</button></div>
+        </div>
+
+        <div class="convert-result" id="result">
+            <div class="convert-amount" id="resAmount">—</div>
+            <div class="convert-rate" id="resRate"></div>
+        </div>
+
+        <div class="card mt-lg">
+            <div class="card-header">Popular Rates (1 <span id="baseLabel">GBP</span> =)</div>
+            <div class="popular-grid" id="popularRates"></div>
+        </div>
+
+        <div id="lastUpdate" class="text-center mt-md" style="font-size:.78rem;color:var(--ink-muted)"></div>
+    </div>
+
+    <div class="content-section">
+        <h2>Exchange Rate Source</h2>
+        <p>Rates are provided by the European Central Bank via the open Frankfurter API, updated daily on working days. These are mid-market reference rates — actual rates from banks and money transfer services will differ slightly due to fees and spreads.</p>
+
+        <h2>Popular Conversions</h2>
+        <p>GBP to USD, GBP to EUR, USD to EUR, USD to JPY, EUR to GBP and USD to INR are among the most searched currency conversions. The rates shown here are indicative mid-market rates and should not be used for financial transactions.</p>
+
+        <h2>Tips for Getting the Best Rate</h2>
+        <p>Compare rates across multiple providers. Avoid airport exchange bureaux. Use fee-free cards like Wise or Revolut for travel spending. For large transfers, specialist services like Wise or OFX typically beat high-street banks on exchange rates.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p>Rates for informational purposes only. <a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const POPULAR = ['USD','EUR','GBP','JPY','AUD','CAD','CHF','CNY','INR','MXN','BRL','ZAR','SGD','HKD','NOK','SEK','DKK','NZD','TRY','KRW'];
+    const NAMES = {USD:'US Dollar',EUR:'Euro',GBP:'British Pound',JPY:'Japanese Yen',AUD:'Australian Dollar',CAD:'Canadian Dollar',CHF:'Swiss Franc',CNY:'Chinese Yuan',INR:'Indian Rupee',MXN:'Mexican Peso',BRL:'Brazilian Real',ZAR:'South African Rand',SGD:'Singapore Dollar',HKD:'Hong Kong Dollar',NOK:'Norwegian Krone',SEK:'Swedish Krona',DKK:'Danish Krone',NZD:'New Zealand Dollar',TRY:'Turkish Lira',KRW:'South Korean Won',PLN:'Polish Zloty',THB:'Thai Baht',IDR:'Indonesian Rupiah',HUF:'Hungarian Forint',CZK:'Czech Koruna',ILS:'Israeli Shekel',PHP:'Philippine Peso',MYR:'Malaysian Ringgit',RON:'Romanian Leu',BGN:'Bulgarian Lev',ISK:'Icelandic Krona',HRK:'Croatian Kuna'};
+
+    let rates = {};
+    let allCurrencies = [];
+
+    async function loadRates() {
+        try {
+            const res = await fetch('https://api.frankfurter.app/latest?from=GBP');
+            const data = await res.json();
+            rates = data.rates;
+            rates['GBP'] = 1;
+            allCurrencies = Object.keys(rates).sort();
+            populateSelects();
+            convert();
+            showPopular();
+            document.getElementById('lastUpdate').textContent = 'Rates updated: ' + data.date + ' (ECB reference rates)';
+        } catch(e) {
+            document.getElementById('result').innerHTML = '<div class="status-bar error">Failed to load exchange rates. Please refresh the page.</div>';
+        }
+    }
+
+    function populateSelects() {
+        const opts = allCurrencies.map(c => `<option value="${c}">${c} — ${NAMES[c] || c}</option>`).join('');
+        document.getElementById('fromCur').innerHTML = opts;
+        document.getElementById('toCur').innerHTML = opts;
+        document.getElementById('fromCur').value = 'GBP';
+        document.getElementById('toCur').value = 'USD';
+    }
+
+    function convert() {
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const from = document.getElementById('fromCur').value;
+        const to = document.getElementById('toCur').value;
+        if (!rates[from] || !rates[to]) return;
+
+        const rate = rates[to] / rates[from];
+        const result = amount * rate;
+
+        document.getElementById('resAmount').textContent = result.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + ' ' + to;
+        document.getElementById('resRate').textContent = `1 ${from} = ${rate.toFixed(6)} ${to} · 1 ${to} = ${(1/rate).toFixed(6)} ${from}`;
+        document.getElementById('baseLabel').textContent = from;
+        showPopular();
+    }
+
+    function swapCurrencies() {
+        const f = document.getElementById('fromCur');
+        const t = document.getElementById('toCur');
+        [f.value, t.value] = [t.value, f.value];
+        convert();
+    }
+
+    function showPopular() {
+        const from = document.getElementById('fromCur').value;
+        const grid = document.getElementById('popularRates');
+        grid.innerHTML = POPULAR.filter(c => c !== from && rates[c]).map(c => {
+            const rate = rates[c] / (rates[from] || 1);
+            return `<div class="pop-rate" onclick="document.getElementById('toCur').value='${c}';convert()">
+                <div class="code">${c}</div>
+                <div class="val">${rate.toFixed(4)}</div>
+                <div class="name">${NAMES[c] || c}</div>
+            </div>`;
+        }).join('');
+    }
+
+    loadRates();
+    </script>
+</body>
+</html>

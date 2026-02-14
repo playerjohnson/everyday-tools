@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor Online Free — Compress JPEG PNG in Browser</title>
+    <meta name="description" content="Compress images up to 90% smaller — entirely in your browser. No upload, no server. Supports JPEG and PNG with adjustable quality.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/image-compressor.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+    <style>
+        .quality-row { display: flex; align-items: center; gap: 12px; }
+        .quality-row input[type="range"] { flex: 1; accent-color: var(--accent); }
+        .quality-val { font-weight: 700; min-width: 40px; text-align: right; }
+        .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .preview-box { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+        .preview-box img { width: 100%; display: block; }
+        .preview-label { padding: 10px; font-size: .82rem; text-align: center; background: var(--bg-input); }
+        .image-results { margin-top: 12px; }
+        .image-result { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: .88rem; }
+        .image-result:last-child { border-bottom: none; }
+        .savings { color: var(--green); font-weight: 700; }
+    </style>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Image Compressor</h1><p>Compress images up to 90% — processed entirely in your browser</p><div class="privacy-badge">🔒 100% client-side — nothing uploaded</div></div>
+
+    <div class="tool-container">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <p><strong>Drop images here</strong> or click to browse</p>
+            <p style="font-size:.8rem;margin-top:8px;color:var(--ink-muted)">Supports JPEG, PNG, WebP</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="addImages(this.files)">
+
+        <div class="card mt-md">
+            <div class="form-grid">
+                <div class="form-row"><label>Quality</label><div class="quality-row"><input type="range" id="quality" min="10" max="100" value="70" oninput="document.getElementById('qVal').textContent=this.value+'%'"><span class="quality-val" id="qVal">70%</span></div></div>
+                <div class="form-row"><label>Max Width (px, 0 = no resize)</label><input type="number" id="maxWidth" value="0" min="0" step="100"></div>
+            </div>
+            <div class="form-row"><label>Output Format</label><select id="outFormat"><option value="auto">Same as input</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option><option value="image/png">PNG</option></select></div>
+            <button class="btn btn-primary mt-sm" onclick="compressAll()">Compress Images</button>
+        </div>
+
+        <div id="results" class="card mt-md" style="display:none">
+            <div class="card-header">Results</div>
+            <div class="image-results" id="resultList"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>How It Works</h2><p>This tool uses the HTML5 Canvas API to re-encode your images at the specified quality level. JPEG and WebP compression is lossy — lower quality = smaller file size. PNG is lossless, so quality has less effect.</p>
+        <h2>Best Settings</h2><p>For photos, JPEG or WebP at 60-80% quality gives a great balance. For screenshots with text, PNG preserves sharpness. WebP offers the best compression of all three formats and is supported by all modern browsers.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    let images = [];
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); addImages(e.dataTransfer.files); });
+
+    function addImages(files) { images = [...images, ...Array.from(files).filter(f => f.type.startsWith('image/'))]; dropZone.querySelector('p strong').textContent = images.length + ' image(s) selected'; }
+
+    async function compressAll() {
+        if (!images.length) return;
+        const quality = parseInt(document.getElementById('quality').value) / 100;
+        const maxW = parseInt(document.getElementById('maxWidth').value) || 0;
+        const fmt = document.getElementById('outFormat').value;
+        const results = document.getElementById('results');
+        const list = document.getElementById('resultList');
+        results.style.display = 'block'; list.innerHTML = '<p style="color:var(--ink-muted)">Compressing...</p>';
+        let html = '';
+        for (const img of images) {
+            const result = await compressImage(img, quality, maxW, fmt === 'auto' ? img.type : fmt);
+            const pct = ((1 - result.size / img.size) * 100).toFixed(0);
+            html += `<div class="image-result"><div><strong>${img.name}</strong><br><span style="color:var(--ink-muted);font-size:.8rem">${ET.fmtBytes(img.size)} → ${ET.fmtBytes(result.size)}</span></div><div><span class="savings">${pct}% smaller</span> <a href="${result.url}" download="${'compressed-'+img.name}" class="btn btn-sm btn-primary" style="text-decoration:none;margin-left:8px">Download</a></div></div>`;
+        }
+        list.innerHTML = html;
+    }
+
+    function compressImage(file, quality, maxW, mime) {
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let w = img.width, h = img.height;
+                if (maxW > 0 && w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                canvas.toBlob(blob => { resolve({ size: blob.size, url: URL.createObjectURL(blob) }); }, mime, quality);
+            };
+            img.src = URL.createObjectURL(file);
+        });
+    }
+    </script>
+</body>
+</html>

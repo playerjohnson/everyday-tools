@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator — Free Placeholder Text Generator</title>
+    <meta name="description" content="Generate lorem ipsum placeholder text by paragraphs, sentences or words. Copy with one click. Free online lorem ipsum generator.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/lorem-ipsum-generator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Lorem Ipsum Generator</h1><p>Generate placeholder text by paragraphs, sentences or words</p></div>
+    <div class="tool-container">
+        <div class="card">
+            <div class="form-grid">
+                <div class="form-row"><label>Amount</label><input type="number" id="amount" value="5" min="1" max="100" oninput="generate()"></div>
+                <div class="form-row"><label>Unit</label><select id="unit" onchange="generate()"><option value="paragraphs">Paragraphs</option><option value="sentences">Sentences</option><option value="words">Words</option></select></div>
+            </div>
+            <div class="form-row"><label style="display:flex;align-items:center;gap:8px;font-weight:400;cursor:pointer"><input type="checkbox" id="startClassic" checked onchange="generate()"> Start with "Lorem ipsum dolor sit amet..."</label></div>
+        </div>
+        <div class="btn-group mb-md"><button class="btn btn-primary" onclick="ET.copy(document.getElementById('output').textContent,this)">Copy Text</button><button class="btn btn-secondary" onclick="generate()">Regenerate</button></div>
+        <div class="card"><div class="output-box" id="output" style="font-size:.92rem;line-height:1.8"></div></div>
+        <div style="margin-top:8px;font-size:.78rem;color:var(--ink-muted)" id="stats"></div>
+    </div>
+    <div class="content-section"><h2>What Is Lorem Ipsum?</h2><p>Lorem ipsum is scrambled Latin text used as placeholder content in design and publishing since the 1500s. It lets designers and developers fill layouts with realistic-looking text without the distraction of readable content.</p></div>
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const WORDS='lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum'.split(' ');
+    const CLASSIC = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    function rw() { return WORDS[Math.floor(Math.random()*WORDS.length)]; }
+    function sentence() { const len = 8 + Math.floor(Math.random()*12); let s = Array.from({length:len},rw).join(' '); return s.charAt(0).toUpperCase()+s.slice(1)+'.'; }
+    function paragraph() { return Array.from({length:3+Math.floor(Math.random()*4)},sentence).join(' '); }
+    function generate() {
+        const n = Math.min(parseInt(document.getElementById('amount').value)||1, 100);
+        const unit = document.getElementById('unit').value;
+        const classic = document.getElementById('startClassic').checked;
+        let text;
+        if (unit==='paragraphs') { const ps = Array.from({length:n},paragraph); if (classic) ps[0] = CLASSIC + ' ' + ps[0]; text = ps.join('\n\n'); }
+        else if (unit==='sentences') { const ss = Array.from({length:n},sentence); if (classic) ss[0] = CLASSIC; text = ss.join(' '); }
+        else { text = Array.from({length:n},rw).join(' '); if (classic) text = 'Lorem ipsum ' + text; text = text.charAt(0).toUpperCase()+text.slice(1)+'.'; }
+        document.getElementById('output').textContent = text;
+        const wc = text.split(/\s+/).length;
+        document.getElementById('stats').textContent = `${wc} words · ${text.length} characters`;
+    }
+    generate();
+    </script>
+</body>
+</html>

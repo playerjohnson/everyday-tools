@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Invoice Generator — Create & Download PDF Invoices</title>
+    <meta name="description" content="Create professional invoices and download as PDF — free, no sign-up. Add line items, tax, discounts and your business details. Print or save to PDF.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/invoice-generator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+    <style>
+        .line-items th { text-align: left; padding: 8px; font-size: .75rem; text-transform: uppercase; color: var(--ink-muted); border-bottom: 2px solid var(--border); }
+        .line-items td { padding: 6px 8px; }
+        .line-items input { font-size: .88rem; }
+        .line-items .amt { text-align: right; font-weight: 600; min-width: 80px; }
+        .totals-row { display: flex; justify-content: flex-end; } .totals-table { text-align: right; } .totals-table td { padding: 6px 12px; font-size: .9rem; } .totals-table .grand { font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+        @media print { .site-nav, .site-footer, .tool-hero, .no-print, .privacy-badge { display:none!important; } .card { box-shadow:none; border:none; } body { background:white; } }
+    </style>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Invoice Generator</h1><p>Create professional invoices and save as PDF</p></div>
+
+    <div class="tool-container wide">
+        <div class="btn-group mb-md no-print"><button class="btn btn-primary" onclick="window.print()">Download / Print PDF</button></div>
+        <div class="card">
+            <div class="form-grid">
+                <div><div class="card-header">From</div><div class="form-row"><label>Business Name</label><input type="text" id="fromName" value="Your Business Name"></div><div class="form-row"><label>Address</label><textarea id="fromAddr" rows="3">123 Business Street
+London, SW1A 1AA
+VAT: GB123456789</textarea></div></div>
+                <div><div class="card-header">Bill To</div><div class="form-row"><label>Client Name</label><input type="text" id="toName" value="Client Name"></div><div class="form-row"><label>Address</label><textarea id="toAddr" rows="3">456 Client Road
+Manchester, M1 2AB</textarea></div></div>
+            </div>
+            <div class="form-grid mt-md">
+                <div class="form-row"><label>Invoice Number</label><input type="text" id="invNum" value="INV-001"></div>
+                <div class="form-row"><label>Date</label><input type="date" id="invDate"></div>
+                <div class="form-row"><label>Due Date</label><input type="date" id="dueDate"></div>
+                <div class="form-row"><label>Currency</label><select id="currency"><option value="£">£ GBP</option><option value="$">$ USD</option><option value="€">€ EUR</option></select></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Line Items</div>
+            <table class="line-items" style="width:100%;border-collapse:collapse">
+                <thead><tr><th style="width:40%">Description</th><th>Qty</th><th>Unit Price</th><th style="text-align:right">Amount</th><th class="no-print" style="width:40px"></th></tr></thead>
+                <tbody id="lineItems"></tbody>
+            </table>
+            <button class="btn btn-secondary btn-sm mt-md no-print" onclick="addLine()">+ Add Line</button>
+            <div class="form-grid mt-md">
+                <div class="form-row"><label>Tax Rate (%)</label><input type="number" id="taxRate" value="20" min="0" step="0.5" oninput="recalc()"></div>
+                <div class="form-row"><label>Discount (%)</label><input type="number" id="discount" value="0" min="0" step="0.5" oninput="recalc()"></div>
+            </div>
+            <div class="totals-row mt-md"><table class="totals-table"><tr><td>Subtotal</td><td id="subtotal">£0.00</td></tr><tr><td>Discount</td><td id="discountAmt">-£0.00</td></tr><tr><td>Tax (<span id="taxLabel">20</span>%)</td><td id="taxAmt">£0.00</td></tr><tr><td><strong>Total</strong></td><td class="grand" id="total">£0.00</td></tr></table></div>
+        </div>
+
+        <div class="card"><div class="form-row"><label>Notes / Payment Instructions</label><textarea id="notes" rows="3">Payment due within 30 days. Bank transfer to Sort: 12-34-56, Account: 12345678.</textarea></div></div>
+    </div>
+
+    <div class="content-section"><h2>How to Save as PDF</h2><p>Click "Download / Print PDF" and choose "Save as PDF" in the print dialog. This works in Chrome, Firefox, Edge and Safari. The invoice will print cleanly without the navigation or buttons.</p></div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    document.getElementById('invDate').value = new Date().toISOString().split('T')[0];
+    const due = new Date(); due.setDate(due.getDate()+30); document.getElementById('dueDate').value = due.toISOString().split('T')[0];
+    let lines = [{ desc:'Web Development Services', qty:1, price:500 }, { desc:'Hosting (monthly)', qty:1, price:25 }];
+    function renderLines() {
+        document.getElementById('lineItems').innerHTML = lines.map((l,i) => `<tr>
+            <td><input type="text" value="${l.desc}" onchange="lines[${i}].desc=this.value"></td>
+            <td><input type="number" value="${l.qty}" min="0" step="1" style="width:70px" onchange="lines[${i}].qty=+this.value;recalc()"></td>
+            <td><input type="number" value="${l.price}" min="0" step="0.01" style="width:100px" onchange="lines[${i}].price=+this.value;recalc()"></td>
+            <td class="amt" id="lineAmt${i}"></td>
+            <td class="no-print"><button onclick="lines.splice(${i},1);renderLines();recalc()" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:1.1rem">×</button></td>
+        </tr>`).join(''); recalc();
+    }
+    function addLine() { lines.push({ desc:'New Item', qty:1, price:0 }); renderLines(); }
+    function recalc() {
+        const cur = document.getElementById('currency').value;
+        let sub = 0;
+        lines.forEach((l,i) => { const amt = l.qty * l.price; sub += amt; const el = document.getElementById('lineAmt'+i); if (el) el.textContent = cur + amt.toFixed(2); });
+        const disc = sub * (parseFloat(document.getElementById('discount').value)||0) / 100;
+        const taxable = sub - disc;
+        const taxR = parseFloat(document.getElementById('taxRate').value)||0;
+        const tax = taxable * taxR / 100;
+        document.getElementById('subtotal').textContent = cur + sub.toFixed(2);
+        document.getElementById('discountAmt').textContent = '-' + cur + disc.toFixed(2);
+        document.getElementById('taxLabel').textContent = taxR;
+        document.getElementById('taxAmt').textContent = cur + tax.toFixed(2);
+        document.getElementById('total').textContent = cur + (taxable + tax).toFixed(2);
+    }
+    document.getElementById('currency').addEventListener('change', recalc);
+    renderLines();
+    </script>
+</body>
+</html>

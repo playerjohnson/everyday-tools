@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Converter — Convert Times Between World Time Zones</title>
+    <meta name="description" content="Convert times between any world time zones instantly. See the current time in multiple cities. Free online timezone converter.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/timezone-converter.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+    <style>
+        .tz-result { padding: 20px; text-align: center; background: var(--accent-light); border-radius: var(--radius); }
+        .tz-time { font-size: 2rem; font-weight: 800; color: var(--accent); } .tz-date { color: var(--ink-light); font-size: .9rem; }
+        .world-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 16px; }
+        .world-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; text-align: center; }
+        .world-card .city { font-weight: 700; font-size: .88rem; } .world-card .time { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-top: 4px; } .world-card .offset { font-size: .75rem; color: var(--ink-muted); }
+    </style>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>Time Zone Converter</h1><p>Convert times between any world time zones instantly</p></div>
+    <div class="tool-container">
+        <div class="card">
+            <div class="form-grid">
+                <div class="form-row"><label for="fromTz">From Time Zone</label><select id="fromTz" onchange="convert()"></select></div>
+                <div class="form-row"><label for="toTz">To Time Zone</label><select id="toTz" onchange="convert()"></select></div>
+            </div>
+            <div class="form-grid">
+                <div class="form-row"><label for="inputDate">Date</label><input type="date" id="inputDate" onchange="convert()"></div>
+                <div class="form-row"><label for="inputTime">Time</label><input type="text" id="inputTime" value="09:00" onchange="convert()" placeholder="HH:MM"></div>
+            </div>
+        </div>
+        <div class="tz-result mt-md" id="result"><div class="tz-time" id="resTime">—</div><div class="tz-date" id="resDate"></div></div>
+        <div class="card mt-lg"><div class="card-header">World Clocks (Live)</div><div class="world-grid" id="worldClocks"></div></div>
+    </div>
+    <div class="content-section"><h2>Common Conversions</h2><p>London (GMT/BST) to New York (EST/EDT): subtract 5 hours. London to Tokyo (JST): add 9 hours. London to Sydney (AEST/AEDT): add 10-11 hours depending on daylight saving.</p></div>
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    const ZONES = ['Europe/London','America/New_York','America/Chicago','America/Denver','America/Los_Angeles','Europe/Paris','Europe/Berlin','Europe/Moscow','Asia/Dubai','Asia/Kolkata','Asia/Singapore','Asia/Tokyo','Asia/Shanghai','Australia/Sydney','Pacific/Auckland','America/Toronto','America/Sao_Paulo','Africa/Johannesburg','Africa/Lagos','Asia/Hong_Kong'];
+    const LABELS = {'Europe/London':'London','America/New_York':'New York','America/Chicago':'Chicago','America/Denver':'Denver','America/Los_Angeles':'Los Angeles','Europe/Paris':'Paris','Europe/Berlin':'Berlin','Europe/Moscow':'Moscow','Asia/Dubai':'Dubai','Asia/Kolkata':'Mumbai','Asia/Singapore':'Singapore','Asia/Tokyo':'Tokyo','Asia/Shanghai':'Shanghai','Australia/Sydney':'Sydney','Pacific/Auckland':'Auckland','America/Toronto':'Toronto','America/Sao_Paulo':'São Paulo','Africa/Johannesburg':'Johannesburg','Africa/Lagos':'Lagos','Asia/Hong_Kong':'Hong Kong'};
+
+    function populateSelects() {
+        const opts = ZONES.map(z => `<option value="${z}">${LABELS[z] || z} (${getOffset(z)})</option>`).join('');
+        document.getElementById('fromTz').innerHTML = opts;
+        document.getElementById('toTz').innerHTML = opts;
+        document.getElementById('toTz').value = 'America/New_York';
+        document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+    }
+
+    function getOffset(tz) { try { const s = new Date().toLocaleString('en-GB',{timeZone:tz,timeZoneName:'short'}); return s.split(' ').pop(); } catch(e) { return ''; } }
+
+    function convert() {
+        const from = document.getElementById('fromTz').value;
+        const to = document.getElementById('toTz').value;
+        const date = document.getElementById('inputDate').value;
+        const time = document.getElementById('inputTime').value;
+        if (!date || !time) return;
+        const [h,m] = time.split(':').map(Number);
+        const dt = new Date(new Date(date+'T'+time.padStart(5,'0')+':00').toLocaleString('en-US',{timeZone:from}));
+        // Reconstruct properly
+        const fromStr = new Date(date+'T'+time.padStart(5,'0')+':00');
+        const fromOffset = new Date(fromStr.toLocaleString('en-US',{timeZone:from}));
+        const utcOffset = fromStr - fromOffset;
+        const utc = new Date(fromStr.getTime() + utcOffset);
+
+        document.getElementById('resTime').textContent = utc.toLocaleString('en-GB',{timeZone:to,hour:'2-digit',minute:'2-digit',hour12:false});
+        document.getElementById('resDate').textContent = utc.toLocaleString('en-GB',{timeZone:to,weekday:'long',day:'numeric',month:'long',year:'numeric'}) + ' — ' + (LABELS[to]||to);
+    }
+
+    function updateWorldClocks() {
+        const now = new Date();
+        document.getElementById('worldClocks').innerHTML = ZONES.slice(0,12).map(z => {
+            const t = now.toLocaleString('en-GB',{timeZone:z,hour:'2-digit',minute:'2-digit',hour12:false});
+            return `<div class="world-card"><div class="city">${LABELS[z]}</div><div class="time">${t}</div><div class="offset">${getOffset(z)}</div></div>`;
+        }).join('');
+    }
+
+    populateSelects(); convert(); updateWorldClocks(); setInterval(updateWorldClocks, 30000);
+    </script>
+</body>
+</html>

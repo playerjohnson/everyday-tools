@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator Free — Custom Colours, PNG & SVG Download</title>
+    <meta name="description" content="Generate QR codes for URLs, text, WiFi, email and more. Customise colours, size and download as PNG or SVG. Free, no sign-up required.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/tools/qr-code-generator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        .qr-preview { display: flex; align-items: center; justify-content: center; padding: 32px; background: white; border: 1px solid var(--border); border-radius: var(--radius); min-height: 250px; }
+        .qr-preview canvas, .qr-preview img { max-width: 100%; }
+        .colour-row { display: flex; align-items: center; gap: 12px; }
+        .colour-row input[type="color"] { width: 44px; height: 44px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; background: none; padding: 2px; }
+    </style>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li></ul><button class="nav-hamburger" aria-label="Toggle menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+    <div class="tool-hero"><h1>QR Code Generator</h1><p>Generate QR codes with custom colours and download as PNG</p></div>
+
+    <div class="tool-container">
+        <div class="card">
+            <div class="form-row"><label for="qrType">Content Type</label><select id="qrType" onchange="updatePlaceholder()"><option value="url">URL</option><option value="text">Plain Text</option><option value="wifi">WiFi Network</option><option value="email">Email</option><option value="phone">Phone Number</option></select></div>
+            <div class="form-row"><label for="qrContent">Content</label><textarea id="qrContent" rows="3" placeholder="https://example.com" oninput="generateQR()"></textarea></div>
+            <div id="wifiFields" style="display:none">
+                <div class="form-grid">
+                    <div class="form-row"><label for="wifiSsid">Network Name (SSID)</label><input type="text" id="wifiSsid" oninput="buildWifi()"></div>
+                    <div class="form-row"><label for="wifiPass">Password</label><input type="text" id="wifiPass" oninput="buildWifi()"></div>
+                </div>
+                <div class="form-row"><label for="wifiEnc">Encryption</label><select id="wifiEnc" onchange="buildWifi()"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Customise</div>
+            <div class="form-grid">
+                <div class="form-row"><label>Foreground Colour</label><div class="colour-row"><input type="color" id="fgColour" value="#000000" onchange="generateQR()"><span id="fgVal">#000000</span></div></div>
+                <div class="form-row"><label>Background Colour</label><div class="colour-row"><input type="color" id="bgColour" value="#ffffff" onchange="generateQR()"><span id="bgVal">#ffffff</span></div></div>
+            </div>
+            <div class="form-row"><label>Size (px)</label><select id="qrSize" onchange="generateQR()"><option value="200">200×200</option><option value="300" selected>300×300</option><option value="400">400×400</option><option value="600">600×600</option><option value="800">800×800</option></select></div>
+        </div>
+
+        <div class="qr-preview" id="qrPreview"><p style="color:var(--ink-muted)">Enter content above to generate QR code</p></div>
+        <div class="btn-group mt-md">
+            <button class="btn btn-primary" onclick="downloadPNG()">Download PNG</button>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>What Can You Encode?</h2><p>URLs, plain text, WiFi credentials, email addresses, phone numbers — any text up to about 4,000 characters. WiFi QR codes let people connect to your network by scanning with their phone camera.</p>
+        <h2>Custom Colours</h2><p>You can change the foreground and background colours. Make sure there's enough contrast for scanners to read the code — dark foreground on light background works best. Avoid low-contrast combinations.</p>
+    </div>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+    <script>
+    let qr = null;
+    function updatePlaceholder() {
+        const type = document.getElementById('qrType').value;
+        const ta = document.getElementById('qrContent');
+        const wifi = document.getElementById('wifiFields');
+        wifi.style.display = type === 'wifi' ? 'block' : 'none';
+        const ph = { url:'https://example.com', text:'Your text here', wifi:'Generated from fields below', email:'mailto:hello@example.com', phone:'tel:+447700900000' };
+        ta.placeholder = ph[type]; if (type !== 'wifi') ta.focus();
+    }
+    function buildWifi() { document.getElementById('qrContent').value = `WIFI:T:${document.getElementById('wifiEnc').value};S:${document.getElementById('wifiSsid').value};P:${document.getElementById('wifiPass').value};;`; generateQR(); }
+    function generateQR() {
+        const text = document.getElementById('qrContent').value.trim();
+        const preview = document.getElementById('qrPreview');
+        document.getElementById('fgVal').textContent = document.getElementById('fgColour').value;
+        document.getElementById('bgVal').textContent = document.getElementById('bgColour').value;
+        if (!text) { preview.innerHTML = '<p style="color:var(--ink-muted)">Enter content above</p>'; return; }
+        preview.innerHTML = '';
+        qr = new QRCode(preview, { text, width: +document.getElementById('qrSize').value, height: +document.getElementById('qrSize').value, colorDark: document.getElementById('fgColour').value, colorLight: document.getElementById('bgColour').value, correctLevel: QRCode.CorrectLevel.H });
+    }
+    function downloadPNG() {
+        const canvas = document.querySelector('#qrPreview canvas');
+        if (!canvas) return;
+        const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'qrcode.png'; a.click();
+    }
+    </script>
+</body>
+</html>
