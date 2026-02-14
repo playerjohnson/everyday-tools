@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Merge PDFs Without Uploading to the Cloud (2026)</title>
+    <meta name="description" content="Most online PDF tools upload your files to remote servers. Here's why that's a privacy risk and how to merge PDFs entirely in your browser with no upload.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/blog/merge-pdfs-without-uploading.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li><li><a href="./" class="active">Blog</a></li></ul><button class="nav-hamburger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="blog-article-hero"><h1>How to Merge PDFs Without Uploading to the Cloud</h1><p class="meta">14 February 2026 · 5 min read</p></div>
+
+    <article class="blog-article">
+        <h2>The Problem With Online PDF Tools</h2>
+        <p>When you use most "free" online PDF mergers, your files are uploaded to a remote server. That server processes your files and sends back the result. This means a company you've never heard of now has a copy of your documents — contracts, bank statements, medical records, whatever you're merging.</p>
+        <p>Most of these services claim to delete files after an hour. Some don't specify at all. And even the ones with clear privacy policies are still transmitting your files across the internet, where they could be intercepted, logged, or stored in backups indefinitely.</p>
+
+        <h2>The Client-Side Alternative</h2>
+        <p>Modern browsers are powerful enough to process PDFs without any server involvement. JavaScript libraries like pdf-lib can read, merge, split and create PDFs entirely within your browser tab. The files never leave your device.</p>
+        <p>You can verify this yourself: open your browser's developer tools (F12), go to the Network tab, and watch what happens when you merge files with our tool. You'll see zero file uploads. The only network requests are for the page itself and its assets.</p>
+
+        <div class="blog-cta"><h3>Merge PDFs — 100% In Your Browser</h3><p>Drop your PDF files, reorder them, and merge. Nothing is uploaded anywhere.</p><a href="../tools/pdf-merger.html">Open PDF Merger →</a></div>
+
+        <h2>When Does It Matter?</h2>
+        <p>For most casual use, the privacy risk of cloud-based tools is low. But for certain documents, client-side processing is the only responsible choice:</p>
+        <ul>
+            <li><strong>Legal documents</strong> — contracts, court filings, witness statements</li>
+            <li><strong>Financial records</strong> — bank statements, tax returns, payslips</li>
+            <li><strong>Medical records</strong> — test results, prescriptions, referral letters</li>
+            <li><strong>Business confidential</strong> — proposals, NDAs, board minutes</li>
+            <li><strong>Personal identity</strong> — passport copies, driving licence, utility bills</li>
+        </ul>
+
+        <h2>How Our PDF Merger Works</h2>
+        <p>Under the hood, the tool uses pdf-lib, an open-source JavaScript library that can parse and create PDFs. When you select files, the browser reads them into memory using the File API. The library then copies pages from each source PDF into a new combined document. The merged PDF is generated as a binary blob and offered as a download — all without any network request.</p>
+        <p>The only limitation is your device's memory. Most modern devices handle files up to 100MB comfortably. For very large files or many documents, a desktop browser will perform better than mobile.</p>
+
+        <h2>Other Ways to Merge PDFs Offline</h2>
+        <ul>
+            <li><strong>macOS Preview</strong> — open the first PDF, show thumbnails, drag additional PDFs into the sidebar</li>
+            <li><strong>pdftk (command line)</strong> — <code>pdftk file1.pdf file2.pdf cat output merged.pdf</code></li>
+            <li><strong>Python (PyPDF2)</strong> — a few lines of code for developers who prefer scripts</li>
+            <li><strong>LibreOffice Draw</strong> — can open and combine PDFs, then export</li>
+        </ul>
+        <p>But for most people, a browser-based tool that processes locally is the fastest and easiest option.</p>
+
+        <div class="blog-cta"><h3>Try It Now — Free, No Upload</h3><p>Drag-and-drop PDF merging that runs entirely in your browser.</p><a href="../tools/pdf-merger.html">Open PDF Merger →</a></div>
+    </article>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+</body>
+</html>

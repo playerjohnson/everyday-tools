@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compression: How to Reduce File Size Without Losing Quality (2026)</title>
+    <meta name="description" content="JPEG vs PNG vs WebP, what quality settings to use, and how image compression works. Practical advice for websites, email and social media.">
+    <link rel="canonical" href="https://playerjohnson.github.io/everyday-tools/blog/image-compression-guide.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/core.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6553969093740923" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GSVNXL004D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-GSVNXL004D");</script>
+</head>
+<body>
+    <nav class="site-nav"><div class="nav-inner"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><ul class="nav-links"><li><a href="../">Tools</a></li><li><a href="./" class="active">Blog</a></li></ul><button class="nav-hamburger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button></div></nav>
+
+    <div class="blog-article-hero"><h1>Image Compression: How to Reduce File Size Without Losing Quality</h1><p class="meta">14 February 2026 · 6 min read</p></div>
+
+    <article class="blog-article">
+        <h2>Why Image Size Matters</h2>
+        <p>Images are typically the largest files on any web page, making up 40-60% of total page weight. A 5MB hero image that could have been 200KB costs your visitors time, data and patience. Google's Core Web Vitals explicitly penalise slow-loading images in search rankings. For email, most providers reject attachments over 25MB, and large images slow down every recipient's inbox.</p>
+
+        <h2>Lossy vs Lossless Compression</h2>
+        <p><strong>Lossy compression</strong> (JPEG, WebP) discards some data permanently to achieve smaller files. At high quality settings (70-85%), the difference is invisible to the human eye. At low settings (below 40%), you'll see artefacts — blocky areas and colour banding.</p>
+        <p><strong>Lossless compression</strong> (PNG, lossless WebP) preserves every pixel exactly. File sizes are larger, but the image is bit-for-bit identical after decompression. Essential for screenshots, diagrams, logos and anything with sharp edges or text.</p>
+
+        <h2>Which Format Should You Use?</h2>
+        <table>
+            <thead><tr><th>Format</th><th>Best For</th><th>Compression</th><th>Transparency</th></tr></thead>
+            <tbody>
+                <tr><td><strong>JPEG</strong></td><td>Photos, complex images</td><td>Lossy, excellent</td><td>No</td></tr>
+                <tr><td><strong>PNG</strong></td><td>Screenshots, logos, text, diagrams</td><td>Lossless</td><td>Yes</td></tr>
+                <tr><td><strong>WebP</strong></td><td>Everything (best all-rounder)</td><td>Both lossy and lossless</td><td>Yes</td></tr>
+                <tr><td><strong>SVG</strong></td><td>Icons, logos, illustrations</td><td>Vector (infinitely scalable)</td><td>Yes</td></tr>
+                <tr><td><strong>GIF</strong></td><td>Simple animations only</td><td>Lossless, limited to 256 colours</td><td>Yes (1-bit)</td></tr>
+                <tr><td><strong>AVIF</strong></td><td>Photos (newer, better than WebP)</td><td>Lossy, exceptional</td><td>Yes</td></tr>
+            </tbody>
+        </table>
+
+        <div class="blog-cta"><h3>Compress Images In Your Browser</h3><p>Drag, drop, adjust quality. JPEG, PNG and WebP with no upload to any server.</p><a href="../tools/image-compressor.html">Open Image Compressor →</a></div>
+
+        <h2>Recommended Quality Settings</h2>
+        <p><strong>For websites:</strong> JPEG or WebP at 70-80% quality gives the best balance of size and visual quality for photographs. Most users cannot tell the difference between 80% and 100% on a typical screen. For retina/high-DPI displays, you can go even lower (60-70%) because the higher pixel density masks compression artefacts.</p>
+        <p><strong>For email:</strong> Resize images to 1200px wide maximum before compressing. Most email clients won't display larger, so you're sending unnecessary data. JPEG at 75% quality keeps most photos under 200KB.</p>
+        <p><strong>For social media:</strong> Platforms re-compress your images anyway. Upload the highest quality you can (the platform handles optimisation), but keep files under 5-10MB to avoid slow uploads.</p>
+
+        <h2>The Resize Trick</h2>
+        <p>Before adjusting quality, check the image dimensions. A 4000×3000 photo from your phone is 12 megapixels. If it's going on a website at 800px wide, resizing from 4000 to 800 pixels reduces the file size by roughly 96% before you even touch quality settings. Always resize first, then compress.</p>
+
+        <h2>WebP: The Modern Choice</h2>
+        <p>WebP (developed by Google) offers both lossy and lossless compression and is typically 25-35% smaller than equivalent JPEG files. It supports transparency (unlike JPEG) and animation (unlike PNG). Every modern browser supports it. If you're building a website today, WebP should be your default format.</p>
+        <p>AVIF is even newer and offers better compression than WebP, but browser support is still catching up and encoding is slower.</p>
+
+        <h2>Quick Wins for Website Performance</h2>
+        <ul>
+            <li><strong>Use responsive images</strong> — serve different sizes for mobile, tablet and desktop using the <code>srcset</code> attribute</li>
+            <li><strong>Lazy load below-the-fold images</strong> — add <code>loading="lazy"</code> to img tags</li>
+            <li><strong>Use a CDN</strong> — serves images from a server closest to your visitor</li>
+            <li><strong>Set explicit width and height</strong> — prevents layout shifts as images load</li>
+            <li><strong>Consider SVG for icons and logos</strong> — vector graphics are tiny and scale perfectly</li>
+        </ul>
+
+        <div class="blog-cta"><h3>Compress Your Images Now</h3><p>Adjustable quality, max width, format conversion — all in your browser.</p><a href="../tools/image-compressor.html">Open Image Compressor →</a></div>
+    </article>
+
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="../" class="nav-logo"><span class="logo-mark">⚡</span> Everyday Tools</a><p>Free tools. 100% client-side.</p></div></div><div class="footer-bottom"><p><a href="../privacy.html" style="color:var(--ink-muted);text-decoration:underline">Privacy</a> · <a href="../terms.html" style="color:var(--ink-muted);text-decoration:underline">Terms</a> © 2026 Everyday Tools.</p></div></footer>
+    <script src="../assets/js/core.js"></script>
+</body>
+</html>
