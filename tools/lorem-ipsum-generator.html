@@ -81,7 +81,7 @@
             <div class="form-row"><label style="display:flex;align-items:center;gap:8px;font-weight:400;cursor:pointer"><input type="checkbox" id="startClassic" checked onchange="generate()"> Start with "Lorem ipsum dolor sit amet..."</label></div>
         </div>
         <div class="btn-group mb-md"><button class="btn btn-primary" onclick="ET.copy(document.getElementById('output').textContent,this)">Copy Text</button><button class="btn btn-secondary" onclick="generate()">Regenerate</button></div>
-        <div class="card"><div class="output-box" id="output" style="font-size:.92rem;line-height:1.8"></div></div>
+        <div class="card"><div class="output-box" id="output" aria-live="polite" style="font-size:.92rem;line-height:1.8"></div></div>
         <div style="margin-top:8px;font-size:.78rem;color:var(--ink-muted)" id="stats"></div>
     </div>
     <div class="content-section"><h2>What Is Lorem Ipsum?</h2><p>Lorem ipsum is scrambled Latin text used as placeholder content in design and publishing since the 1500s. It lets designers and developers fill layouts with realistic-looking text without the distraction of readable content.</p></div>
