@@ -119,3 +119,25 @@ button, .btn { font-family: inherit; font-size: .88rem; font-weight: 600; paddin
     .footer-inner { grid-template-columns: 1fr; gap: 24px; }
     .tool-grid { grid-template-columns: 1fr; }
 }
+
+/* Focus Visible - Keyboard Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+}
+
+.skip-link:focus {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+}
