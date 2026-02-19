@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://playerjohnson.github.io/everyday-tools/sitemap.xml
+Sitemap: https://anthonyjohnson.dev/everyday-tools/sitemap.xml
